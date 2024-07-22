@@ -4,5 +4,5 @@ data class ArticleModel (
     val name: String,
     val phoneNumber : String,
     val mail : String,
-    val imageUrl: String
+    val imageUrl: Int
 )
