@@ -1,4 +1,4 @@
-package com.example.contactapp.profile
+package com.example.contactapp
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter

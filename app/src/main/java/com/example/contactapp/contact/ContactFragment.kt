@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.contactapp.ItemTouchHelperCallBack
-import com.example.contactapp.ItemTouchHelperListener
 import com.example.contactapp.R
 import com.example.contactapp.databinding.FragmentContactBinding
 
@@ -35,30 +33,30 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         _binding = FragmentContactBinding.inflate(inflater, container, false)
 
         itemList = listOf(
-            ArticleModel("지민", "010-1234-5678", "spara@gmail.com", R.drawable.jimin),
-            ArticleModel("장원영","010-1234-1234", "sparta@gmail.com", R.drawable.wonyoung),
-            ArticleModel("성한빈","010-1234-5678", "sparta@gmail.com", R.drawable.hanbin),
-            ArticleModel("사쿠라","010-1234-1234", "sparta@gmail.com", R.drawable.sakura),
-            ArticleModel("수빈","010-1234-5678", "sparta@gmail.com", R.drawable.soobin),
-            ArticleModel("카리나","010-1234-1234", "sparta@gmail.com", R.drawable.karina),
-            ArticleModel("성한빈","010-1234-5678", "sparta@gmail.com", R.drawable.hanbin),
-            ArticleModel("민지","010-1234-1234", "sparta@gmail.com", R.drawable.minji),
-            ArticleModel("지민","010-1234-5678", "sparta@gmail.com", R.drawable.jimin),
-            ArticleModel("장원영","010-1234-1234", "sparta@gmail.com", R.drawable.wonyoung),
-            ArticleModel("성한빈","010-1234-5678", "sparta@gmail.com", R.drawable.hanbin),
-            ArticleModel("사쿠라","010-1234-1234", "sparta@gmail.com", R.drawable.sakura),
-            ArticleModel("수빈","010-1234-5678", "sparta@gmail.com", R.drawable.soobin),
-            ArticleModel("카리나","010-1234-1234", "sparta@gmail.com", R.drawable.karina),
-            ArticleModel("성한빈","010-1234-5678", "sparta@gmail.com", R.drawable.hanbin),
-            ArticleModel("민지","010-1234-1234", "sparta@gmail.com", R.drawable.minji),
-            ArticleModel("지민","010-1234-5678", "sparta@gmail.com", R.drawable.jimin),
-            ArticleModel("장원영","010-1234-1234", "sparta@gmail.com", R.drawable.wonyoung),
-            ArticleModel("성한빈","010-1234-5678", "sparta@gmail.com", R.drawable.hanbin),
-            ArticleModel("사쿠라","010-1234-1234", "sparta@gmail.com", R.drawable.sakura),
-            ArticleModel("수빈","010-1234-5678", "sparta@gmail.com", R.drawable.soobin),
-            ArticleModel("카리나","010-1234-1234", "sparta@gmail.com", R.drawable.karina),
-            ArticleModel("성한빈","010-1234-5678", "sparta@gmail.com", R.drawable.hanbin),
-            ArticleModel("민지","010-1234-1234", "sparta@gmail.com", R.drawable.minji)
+            ArticleModel("지민", "010-1234-1234", "spara@gmail.com", R.drawable.jimin),
+            ArticleModel("장원영", "010-1234-1243", "sparta@gmail.com", R.drawable.wonyoung),
+            ArticleModel("성한빈", "010-1234-2134", "sparta@gmail.com", R.drawable.hanbin),
+            ArticleModel("사쿠라", "010-1234-2143", "sparta@gmail.com", R.drawable.sakura),
+            ArticleModel("수빈", "010-1234-5678", "sparta@gmail.com", R.drawable.soobin),
+            ArticleModel("카리나", "010-1234-5687", "sparta@gmail.com", R.drawable.karina),
+            ArticleModel("성한빈", "010-1234-6578", "sparta@gmail.com", R.drawable.hanbin),
+            ArticleModel("민지", "010-1234-6587", "sparta@gmail.com", R.drawable.minji),
+            ArticleModel("지민", "010-1243-5678", "sparta@gmail.com", R.drawable.jimin),
+            ArticleModel("장원영", "010-2143-1234", "sparta@gmail.com", R.drawable.wonyoung),
+            ArticleModel("성한빈", "010-2134-5678", "sparta@gmail.com", R.drawable.hanbin),
+            ArticleModel("사쿠라", "010-1234-1111", "sparta@gmail.com", R.drawable.sakura),
+            ArticleModel("수빈", "010-1234-2222", "sparta@gmail.com", R.drawable.soobin),
+            ArticleModel("카리나", "010-1234-3333", "sparta@gmail.com", R.drawable.karina),
+            ArticleModel("성한빈", "010-1234-4444", "sparta@gmail.com", R.drawable.hanbin),
+            ArticleModel("민지", "010-1234-5555", "sparta@gmail.com", R.drawable.minji),
+            ArticleModel("지민", "010-1234-6666", "sparta@gmail.com", R.drawable.jimin),
+            ArticleModel("장원영", "010-1234-7777", "sparta@gmail.com", R.drawable.wonyoung),
+            ArticleModel("성한빈", "010-1234-8888", "sparta@gmail.com", R.drawable.hanbin),
+            ArticleModel("사쿠라", "010-1234-9999", "sparta@gmail.com", R.drawable.sakura),
+            ArticleModel("수빈", "010-1111-5678", "sparta@gmail.com", R.drawable.soobin),
+            ArticleModel("카리나", "010-2222-1234", "sparta@gmail.com", R.drawable.karina),
+            ArticleModel("성한빈", "010-3333-5678", "sparta@gmail.com", R.drawable.hanbin),
+            ArticleModel("민지", "010-4444-1234", "sparta@gmail.com", R.drawable.minji)
         ) as MutableList<ArticleModel>
 
         adapter = ArticleAdapter(this)
@@ -79,10 +77,10 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel: ${itemList[position].phoneNumber}"))
             startActivity(intent)
-            adapter.notifyItemChanged(position)
+            adapter.notifyDataSetChanged()
         } else {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.CALL_PHONE), CALL)
-            adapter.notifyItemChanged(position)
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -128,8 +126,6 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
 //        builder.create().show()
 //    }
 //
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

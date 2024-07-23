@@ -1,19 +1,20 @@
 package com.example.contactapp
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.contactapp.databinding.ActivityMainBinding
-import com.example.contactapp.profile.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val tabTitles = listOf(R.string.tab1, R.string.tab2)
+    private val tabTitles = listOf(R.string.tab1, R.string.tab2)                                   // 이거 menu 폴더에 있는 친구를 가져와야 하는데 잘 모르겠습니다
+    private val icon = ArrayList<Drawable?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,21 +26,26 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        icon.add(ContextCompat.getDrawable(this, R.drawable.baseline_contact_phone_24))
+        icon.add(ContextCompat.getDrawable(this, R.drawable.baseline_account_box_24))
+
         with(binding) {
             viewPager.adapter = ViewPagerAdapter(this@MainActivity)
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = getString(tabTitles[position])
-                when(position) {
-                    0 -> tab.icon = AppCompatResources.getDrawable(
-                        this@MainActivity,
-                        R.drawable.baseline_contact_phone_24
-                    )
 
-                    1-> tab.icon = AppCompatResources.getDrawable(
-                        this@MainActivity,
-                        R.drawable.baseline_account_box_24
-                    )
-                }
+                tab.icon = icon[position]
+
+                // 이건 아이콘 하나가 안 나오고
+//                tabLayout.getTabAt(0)?.setIcon(R.drawable.baseline_contact_phone_24)
+//                tabLayout.getTabAt(1)?.setIcon(R.drawable.baseline_account_box_24)    <- 여기가 안 나옴
+//
+                // 이건 뭔지 모르겠습니다.. ㅠㅠ 위에 있는 icon.add랑 비슷하긴 한데...
+//                when(position) {
+//                    0 -> tab.icon = AppCompatResources.getDrawable(this@MainActivity, R.drawable.baseline_contact_phone_24)
+//
+//                    1-> tab.icon = AppCompatResources.getDrawable(this@MainActivity, R.drawable.baseline_account_box_24)
+//                }
             }.attach()
         }
 

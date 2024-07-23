@@ -3,4 +3,13 @@
 
     <string name="tab1">연락처</string>
     <string name="tab2">프로필</string>
+
+    <string name="main_title">개발 2조 전화번호부</string>
+    <string name="add_phone_number">연락처 추가</string>
+    <string name="profile_name">이름</string>
+    <string name="profile_phone_number">전화번호</string>
+    <string name="profile_email">이메일</string>
+    <string name="profile_event">이벤트</string>
+    <string name="finish_button_text">취소</string>
+    <string name="submit_button_text">등록</string>
 </resources>
