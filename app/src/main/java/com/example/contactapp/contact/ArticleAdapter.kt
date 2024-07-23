@@ -5,18 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.contactapp.ItemTouchHelperListener
+import com.example.contactapp.R
 import com.example.contactapp.databinding.ItemArticleBinding
 
-
-class ArticleAdapter : ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil) {
+class ArticleAdapter(private val listener: ItemTouchHelperListener) : ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(articleModel: ArticleModel) {
-            binding.profileImage
             binding.name.text = articleModel.name
+            binding.profileImage.setImageResource(articleModel.imageUrl)
+            binding.like.setImageResource(R.drawable.heart)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,7 +32,6 @@ class ArticleAdapter : ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diff
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
-
     }
 
     companion object {

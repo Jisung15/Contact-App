@@ -13,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.contactapp.R
-import com.example.contactapp.databinding.AddcontactBinding
 
 class AddContactActivity : AppCompatActivity() {
 

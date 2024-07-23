@@ -23,6 +23,7 @@
             android:text="개발2조 전화번호부"
             android:textColor="@color/white"
             android:textSize="24sp" />
+        <!-- 하드코딩하면 안 되는 걸로 알고 있습니다 ㅋㅋ-->
 
     </LinearLayout>
 
