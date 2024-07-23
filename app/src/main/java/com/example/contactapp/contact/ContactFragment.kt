@@ -39,7 +39,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact) {
 
     private fun showDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.addcontact, null)
-        val editText = dialogView.findViewById<EditText>(R.id.addNameEditText)
+
 
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(dialogView)

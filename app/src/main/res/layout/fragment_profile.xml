@@ -1,7 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF0000">
+    android:background="#F0F0F0">
 
+    <LinearLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@drawable/top_gradient"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/notosans_bold"
+            android:text="프로필"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:layout_width="6dp"
+            android:layout_height="20dp"
+
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarLayout" />
+
+    <LinearLayout
+        android:id="@+id/profileNameLayout"
+        android:layout_width="358dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileImage">
+
+        <TextView
+            android:id="@+id/profileNameTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosans_bold"
+            android:includeFontPadding="false"
+            android:text="이    름"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/profileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/notosans_bold"
+            android:includeFontPadding="false"
+            android:text="김 성 진"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profilPhonNumberLayout"
+        android:layout_width="358dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileNameLayout">
+
+        <TextView
+            android:id="@+id/profilePhoneNumberTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosans_bold"
+            android:includeFontPadding="false"
+            android:text="전화번호"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/profilePhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/notosans_bold"
+            android:includeFontPadding="false"
+            android:text="010-1234-1234"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profilMailLayout"
+        android:layout_width="358dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profilPhonNumberLayout">
+
+        <TextView
+            android:id="@+id/profileMaulTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosans_bold"
+            android:includeFontPadding="false"
+            android:text="이 메 일"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/profileMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/notosans_bold"
+            android:includeFontPadding="false"
+            android:text="dajf23@gmail.com"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profilEventLayout"
+        android:layout_width="358dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profilMailLayout">
+
+        <TextView
+            android:id="@+id/profileEventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosans_bold"
+            android:includeFontPadding="false"
+            android:text="이 벤 트"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/profileEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/notosans_bold"
+            android:includeFontPadding="false"
+            android:text="000000"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
