@@ -29,7 +29,8 @@ class AddContactActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 val uri = result.data?.data
                 if (uri != null) {
-                    findViewById<ImageView>(R.id.addProfileImage).setImageURI(uri)
+                    binding.addProfileImage.setImageURI(uri)
+//                    findViewById<ImageView>(R.id.addProfileImage).setImageURI(uri)
                     selectedUri = uri
                 } else {
                     Toast.makeText(this, "사진을 가져오지 못했습니다", Toast.LENGTH_SHORT).show()
@@ -39,13 +40,11 @@ class AddContactActivity : AppCompatActivity() {
             }
         }
 
-        val addProfileImage = findViewById<ImageView>(R.id.addProfileImage)
+        val addProfileImage = binding.addProfileImage
+//        val addProfileImage = findViewById<ImageView>(R.id.addProfileImage)
         addProfileImage.setOnClickListener {
             when {
-                ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED -> {
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED -> {
                     startContentProvider()
                 }
 
@@ -64,7 +63,6 @@ class AddContactActivity : AppCompatActivity() {
 
         binding.finishButton.setOnClickListener {
             finish()
-
         }
     }
 

@@ -9,14 +9,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/toolbarLayout"
@@ -27,23 +27,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-
-
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosans_bold"
-                    android:text="프로필"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-
                     android:includeFontPadding="false"
+                    android:text="@string/item_profile_title"
                     android:textColor="@color/white"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
 
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -66,48 +62,44 @@
                     android:layout_gravity="bottom|center"
                     android:background="@drawable/rounded_corner"
                     android:orientation="horizontal">
-                
+
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/message_icon"
-                        android:layout_marginStart="20dp" />
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/message_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="메시지 보내기"
-                        android:fontFamily="@font/notosans_bold"
-                        android:textSize="16sp"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        />
-                    
+                        android:fontFamily="@font/notosans_bold"
+                        android:text="@string/item_profile_message"
+                        android:textSize="16sp" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="33dp"
-                        android:background="#D9D9D9"
                         android:layout_gravity="center"
                         android:layout_marginStart="20dp"
-                        />
-                    
+                        android:background="#D9D9D9" />
+
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/call_icon"
                         android:layout_gravity="center"
                         android:layout_marginStart="30dp"
-                        />
+                        android:src="@drawable/call_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="전화 걸기"
-                        android:fontFamily="@font/notosans_bold"
-                        android:textSize="16sp"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        />
+                        android:fontFamily="@font/notosans_bold"
+                        android:text="@string/item_profile_call_phone"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </FrameLayout>
@@ -132,7 +124,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/notosans_bold"
                     android:includeFontPadding="false"
-                    android:text="이    름"
+                    android:text="@string/item_profile_name"
                     android:textSize="16sp" />
 
                 <TextView
@@ -142,7 +134,7 @@
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/notosans_bold"
                     android:includeFontPadding="false"
-                    android:text="김 성 진"
+                    android:text="@string/item_profile_name_value"
                     android:textSize="24sp" />
             </LinearLayout>
 
@@ -165,7 +157,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/notosans_bold"
                     android:includeFontPadding="false"
-                    android:text="전화번호"
+                    android:text="@string/item_profile_phone_number"
                     android:textSize="16sp" />
 
                 <TextView
@@ -175,7 +167,7 @@
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/notosans_bold"
                     android:includeFontPadding="false"
-                    android:text="010-1234-1234"
+                    android:text="@string/item_profile_phone_number_value"
                     android:textSize="24sp" />
             </LinearLayout>
 
@@ -198,7 +190,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/notosans_bold"
                     android:includeFontPadding="false"
-                    android:text="이 메 일"
+                    android:text="@string/item_profile_email"
                     android:textSize="16sp" />
 
                 <TextView
@@ -208,7 +200,7 @@
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/notosans_bold"
                     android:includeFontPadding="false"
-                    android:text="dajf23@gmail.com"
+                    android:text="@string/item_profile_email_value"
                     android:textSize="24sp" />
             </LinearLayout>
 
@@ -231,7 +223,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/notosans_bold"
                     android:includeFontPadding="false"
-                    android:text="이 벤 트"
+                    android:text="@string/item_profile_event"
                     android:textSize="16sp" />
 
                 <TextView
@@ -241,19 +233,22 @@
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/notosans_bold"
                     android:includeFontPadding="false"
-                    android:text="000000"
+                    android:text="@string/item_profile_event_value"
                     android:textSize="24sp" />
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
+
     <ImageView
         android:id="@+id/backImageButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/back_icon"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:src="@drawable/back_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

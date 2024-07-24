@@ -25,12 +25,12 @@ class ArticleAdapter(private val listener: ItemTouchHelperListener) :
             binding.like.setImageResource(R.drawable.heart)
 
             // profileImage 라운딩 처리
-            binding.profileImage.outlineProvider = object : ViewOutlineProvider() {
-                override fun getOutline(view: View, outline: Outline) {
-                    outline.setRoundRect(0, 0, view.width, view.height, 35f)
-                }
-            }
-            binding.profileImage.clipToOutline = true
+//            binding.profileImage.outlineProvider = object : ViewOutlineProvider() {
+//                override fun getOutline(view: View, outline: Outline) {
+//                    outline.setRoundRect(0, 0, view.width, view.height, 35f)
+//                }
+//            }
+//            binding.profileImage.clipToOutline = true
 
             binding.profileImage.setOnClickListener {
                 val context = itemView.context
