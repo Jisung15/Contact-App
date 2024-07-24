@@ -23,7 +23,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_pager" />
+        app:layout_constraintTop_toBottomOf="@id/view_pager"
+        app:tabBackground="@drawable/button_selected"
+        app:tabTextAppearance="@style/TabText"
+        app:tabTextColor="@color/white" />
 
     <!--    <FrameLayout-->
     <!--        android:id="@+id/fragmentContainer"-->

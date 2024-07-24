@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contactapp.R
+import androidx.appcompat.app.AlertDialog
 import com.example.contactapp.databinding.FragmentContactBinding
 
 class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperListener {
@@ -70,6 +72,10 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallBack)
         itemTouchHelper.attachToRecyclerView(binding.articleRecyclerView)
 
+        binding.addFloatingButton.setOnClickListener {
+            showDialog()
+        }
+
         return binding.root
     }
 
@@ -84,6 +90,20 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         }
     }
 
+    private fun showDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.addcontact, null)
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setView(dialogView)
+        val dialog = builder.create()
+        dialog.show()
+
+        val finishButton = dialogView.findViewById<Button>(R.id.finishButton)
+        finishButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == CALL) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -93,39 +113,6 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             }
         }
     }
-
-    //    private lateinit var articleAdapter: ArticleAdapter
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        val fragmentContactBinding = FragmentContactBinding.bind(view)
-//        binding = fragmentContactBinding
-//
-//        articleAdapter = ArticleAdapter()
-//        articleAdapter.submitList(mutableListOf<ArticleModel>().apply {
-//            add(ArticleModel("최봉준","01058442237","dacafo77@nate.com",R.drawable.profile1))
-//        })
-//
-//        fragmentContactBinding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
-//        fragmentContactBinding.articleRecyclerView.adapter = articleAdapter
-//        fragmentContactBinding.addFloatingButton.setOnClickListener{
-//            val intent= Intent(requireContext(),AddContactActivity::class.java )
-//            startActivity(intent)
-//        }
-//        fragmentContactBinding.addFloatingButton.setOnClickListener {
-//            showDialog()
-//        }
-//    }
-//
-//    private fun showDialog() {
-//        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.addcontact, null)
-//        val editText = dialogView.findViewById<EditText>(R.id.addNameEditText)
-//
-//        val builder = AlertDialog.Builder(requireContext())
-//        builder.setView(dialogView)
-//        builder.create().show()
-//    }
-//
 
     override fun onDestroyView() {
         super.onDestroyView()

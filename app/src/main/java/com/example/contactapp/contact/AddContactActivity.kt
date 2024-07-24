@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -13,15 +12,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.contactapp.R
+import com.example.contactapp.databinding.AddcontactBinding
 
 class AddContactActivity : AppCompatActivity() {
 
     private var selectedUri: Uri? = null
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
-
+    private val binding by lazy { AddcontactBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.addcontact)
+        setContentView(binding.root)
 
         imagePickerLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -62,11 +62,12 @@ class AddContactActivity : AppCompatActivity() {
             }
         }
 
-        val finishButton = findViewById<Button>(R.id.finishButton)
-        finishButton.setOnClickListener {
+        binding.finishButton.setOnClickListener {
             finish()
+
         }
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

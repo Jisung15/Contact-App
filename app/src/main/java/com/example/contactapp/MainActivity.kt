@@ -1,10 +1,8 @@
 package com.example.contactapp
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.contactapp.databinding.ActivityMainBinding
@@ -13,8 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val tabTitles = listOf(R.string.tab1, R.string.tab2)                                   // 이거 menu 폴더에 있는 친구를 가져와야 하는데 잘 모르겠습니다
-    private val icon = ArrayList<Drawable?>()
+    private val tabTitles = listOf(R.string.tab1, R.string.tab2)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,15 +23,15 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        icon.add(ContextCompat.getDrawable(this, R.drawable.baseline_contact_phone_24))
-        icon.add(ContextCompat.getDrawable(this, R.drawable.baseline_account_box_24))
-
         with(binding) {
             viewPager.adapter = ViewPagerAdapter(this@MainActivity)
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = getString(tabTitles[position])
 
-                tab.icon = icon[position]
+            }.attach()
+        }
+    }
+}
 
                 // 이건 아이콘 하나가 안 나오고
 //                tabLayout.getTabAt(0)?.setIcon(R.drawable.baseline_contact_phone_24)
@@ -46,8 +43,8 @@ class MainActivity : AppCompatActivity() {
 //
 //                    1-> tab.icon = AppCompatResources.getDrawable(this@MainActivity, R.drawable.baseline_account_box_24)
 //                }
-            }.attach()
-        }
+//            }.attach()
+//        }
 
 //        val contactFragment = ContactFragment()
 //        val profileFragment = ProfileFragment()
@@ -62,8 +59,8 @@ class MainActivity : AppCompatActivity() {
 //
 //            }
 //            true
-//        }
-    }
+//       }
+//    }
 
 //    private fun replaceFragment(fragment: Fragment) {
 //        supportFragmentManager.commit {
@@ -77,4 +74,4 @@ class MainActivity : AppCompatActivity() {
 //                commit()
 //            }
 //    }
-}
+//}

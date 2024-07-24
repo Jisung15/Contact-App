@@ -18,7 +18,7 @@
         android:id="@+id/addProfileImage"
         android:layout_width="144dp"
         android:layout_height="144dp"
-        android:src="@drawable/profile1"
+        android:src="@drawable/addimage_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/addTitleText" />
