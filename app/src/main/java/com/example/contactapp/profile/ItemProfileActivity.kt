@@ -12,9 +12,9 @@ class ItemProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityItemProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    binding.backImageButton.setOnClickListener{
-        finish()
-    }
+        binding.backImageButton.setOnClickListener {
+            finish()
+        }
 
         val name = intent.getStringExtra("name")
         val phoneNumber = intent.getStringExtra("phoneNumber")

@@ -30,8 +30,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".contact.AddContactActivity"/>
-        <activity android:name=".ItemProfileActivity"/>
+        <activity android:name=".contact.AddContactActivity" />
+        <activity android:name=".ItemProfileActivity" />
 
     </application>
 

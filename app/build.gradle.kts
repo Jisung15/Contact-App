@@ -50,5 +50,6 @@ android {
         implementation("androidx.viewpager2:viewpager2:1.1.0")
         implementation("com.makeramen:roundedimageview:2.3.0")
         implementation("androidx.fragment:fragment-ktx:1.8.1")
+        implementation ("de.hdodenhof:circleimageview:3.1.0")
     }
 }

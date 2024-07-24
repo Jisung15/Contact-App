@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contactapp.R
 import androidx.appcompat.app.AlertDialog
+import com.example.contactapp.databinding.AddcontactBinding
 import com.example.contactapp.databinding.FragmentContactBinding
 
 class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperListener {
@@ -73,7 +73,38 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         itemTouchHelper.attachToRecyclerView(binding.articleRecyclerView)
 
         binding.addFloatingButton.setOnClickListener {
-            showDialog()
+            // 다이얼로그를 여기로 옮김
+            // 데이터를 입력하면 어댑터로 추가되는 것 구현 해야 되는 상황입니다
+//            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.addcontact, null)
+            val binding = AddcontactBinding.inflate(LayoutInflater.from(requireContext()))
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setView(binding.root)
+            val dialog = builder.create()
+            dialog.show()
+
+            val finishButton = binding.finishButton
+//            val finishButton = dialogView.findViewById<Button>(R.id.finishButton)
+            finishButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            val addButton = binding.submitButton
+            addButton.setOnClickListener {
+                val name = binding.addNameEditText.text.toString()
+                val phoneNumber = binding.addPhoneNumberEditText.text.toString()
+                val email = binding.addMailEditText.text.toString()
+                val image = R.drawable.karina
+
+                if (name.isNotEmpty() && phoneNumber.isNotEmpty() && email.isNotEmpty()) {
+                    val newItem = ArticleModel(name, phoneNumber, email, image)
+                    val updatedList = mutableListOf(newItem)
+                    updatedList.addAll(adapter.currentList)
+                    adapter.submitList(updatedList)
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(requireContext(), "모든 내용을 입력해야 추가가 가능합니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         return binding.root
@@ -90,19 +121,21 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         }
     }
 
-    private fun showDialog() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.addcontact, null)
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setView(dialogView)
-        val dialog = builder.create()
-        dialog.show()
-
-        val finishButton = dialogView.findViewById<Button>(R.id.finishButton)
-        finishButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-    }
+//    private fun showDialog() {
+////        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.addcontact, null)
+//        val binding = AddcontactBinding.inflate(LayoutInflater.from(requireContext()))
+//        val builder = AlertDialog.Builder(requireContext())
+//        builder.setView(binding.root)
+//        val dialog = builder.create()
+//        dialog.show()
+//
+//        val finishButton = binding.finishButton
+////        val finishButton = dialogView.findViewById<Button>(R.id.finishButton)
+//        finishButton.setOnClickListener {
+//            dialog.dismiss()
+//        }
+//
+//    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == CALL) {
