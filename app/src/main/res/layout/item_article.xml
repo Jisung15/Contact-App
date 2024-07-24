@@ -10,6 +10,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="15dp"
+        android:background="@drawable/rounded_image"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +22,7 @@
         android:layout_marginStart="20dp"
         android:fontFamily="@font/notosans_medium"
         android:maxLines="1"
-        android:text="이름"
+        android:text="@string/profile_name"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@id/profileImage"
         app:layout_constraintStart_toEndOf="@id/profileImage"
@@ -31,6 +33,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="33dp"
+        android:src="@drawable/heart"
         app:layout_constraintBottom_toBottomOf="@+id/name"
         app:layout_constraintEnd_toEndOf="@+id/main"
         app:layout_constraintTop_toTopOf="@+id/name" />
@@ -42,4 +45,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

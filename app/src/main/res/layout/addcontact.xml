@@ -10,24 +10,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/notosans_bold"
-        android:text="연락처 추가"
+        android:text="@string/add_phone_number"
         android:textColor="#0A81D7"
-        android:textSize="24dp" />
+        android:textSize="24sp" />
 
     <ImageView
         android:id="@+id/addProfileImage"
         android:layout_width="144dp"
         android:layout_height="144dp"
+        android:src="@drawable/addimage_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/profile1"
         app:layout_constraintTop_toBottomOf="@id/addTitleText" />
 
     <EditText
         android:id="@+id/addNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="이름"
+        android:hint="@string/profile_name"
         android:inputType="text"
         android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@id/addProfileImage" />
@@ -36,27 +36,27 @@
         android:id="@+id/addPhonNumberEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="전화번호"
+        android:hint="@string/profile_phone_number"
         android:inputType="number"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@id/addNameEditText" />
 
     <EditText
         android:id="@+id/addMailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="이메일"
+        android:hint="@string/profile_email"
         android:inputType="textEmailAddress"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@id/addPhonNumberEditText" />
 
     <EditText
         android:id="@+id/addEventEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="이벤트"
+        android:hint="@string/profile_event"
         android:inputType="textEmailAddress"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@id/addMailEditText" />
 
     <Button
@@ -64,11 +64,11 @@
         android:layout_width="140dp"
         android:layout_height="47dp"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/notosans_bold"
-        android:text="취소"
-        android:textSize="20dp"
-        android:includeFontPadding="false"
         android:backgroundTint="#0A81D7"
+        android:fontFamily="@font/notosans_bold"
+        android:includeFontPadding="false"
+        android:text="@string/finish_button_text"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/addEventEditText" />
 
     <Button
@@ -76,12 +76,13 @@
         android:layout_width="140dp"
         android:layout_height="47dp"
         android:layout_marginStart="17dp"
+        android:backgroundTint="#0A81D7"
         android:fontFamily="@font/notosans_bold"
-        android:text="등록"
-        android:textSize="20dp"
         android:includeFontPadding="false"
+        android:text="@string/submit_button_text"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/finishButton"
         app:layout_constraintStart_toEndOf="@id/finishButton"
-        app:layout_constraintTop_toTopOf="@id/finishButton"
-        android:backgroundTint="#0A81D7" />
+        app:layout_constraintTop_toTopOf="@id/finishButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
