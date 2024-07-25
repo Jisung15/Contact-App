@@ -42,6 +42,7 @@ class ArticleAdapter(private val listener: ItemTouchHelperListener) :
                 } else {
                     binding.like.setImageResource(R.drawable.heart_outlined)
                 }
+                updateSortedList()
             }
 
         }
@@ -56,6 +57,12 @@ class ArticleAdapter(private val listener: ItemTouchHelperListener) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    private fun updateSortedList() {
+        // 좋아요 상태에 따라 목록을 정렬
+        val sortedList = currentList.sortedByDescending { it.dHeartCheck }
+        submitList(sortedList)
     }
 
     companion object {
