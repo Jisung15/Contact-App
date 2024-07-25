@@ -5,20 +5,18 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.contactapp.R
-import com.example.contactapp.databinding.AddcontactBinding
+import com.example.contactapp.databinding.AddContactDialogBinding
 
 class AddContactActivity : AppCompatActivity() {
 
     private var selectedUri: Uri? = null
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
-    private val binding by lazy { AddcontactBinding.inflate(layoutInflater) }
+    private val binding by lazy { AddContactDialogBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -30,7 +28,6 @@ class AddContactActivity : AppCompatActivity() {
                 val uri = result.data?.data
                 if (uri != null) {
                     binding.addProfileImage.setImageURI(uri)
-//                    findViewById<ImageView>(R.id.addProfileImage).setImageURI(uri)
                     selectedUri = uri
                 } else {
                     Toast.makeText(this, "사진을 가져오지 못했습니다", Toast.LENGTH_SHORT).show()
@@ -41,7 +38,6 @@ class AddContactActivity : AppCompatActivity() {
         }
 
         val addProfileImage = binding.addProfileImage
-//        val addProfileImage = findViewById<ImageView>(R.id.addProfileImage)
         addProfileImage.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED -> {

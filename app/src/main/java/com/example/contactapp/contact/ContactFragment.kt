@@ -1,13 +1,17 @@
 package com.example.contactapp.contact
 
+import android.app.ActionBar.LayoutParams
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -15,17 +19,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contactapp.R
-import androidx.appcompat.app.AlertDialog
-import com.example.contactapp.databinding.AddcontactBinding
+import com.example.contactapp.databinding.AddContactDialogBinding
 import com.example.contactapp.databinding.FragmentContactBinding
 
 class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperListener {
 
     private var _binding: FragmentContactBinding? = null
     private val binding get() = _binding!!
-    private val CALL = 1
     private lateinit var adapter: ArticleAdapter
     private var itemList = mutableListOf<ArticleModel>()
+    private val CALL = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +37,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
     ): View {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
 
+        // 연락처 더미 데이터
         itemList = listOf(
             ArticleModel("지민", "010-1234-1234", "spara@gmail.com", R.drawable.jimin),
             ArticleModel("장원영", "010-1234-1243", "sparta@gmail.com", R.drawable.wonyoung),
@@ -44,33 +48,39 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             ArticleModel("민지", "010-1234-6587", "sparta@gmail.com", R.drawable.minji)
         ) as MutableList<ArticleModel>
 
+        // RecyclerView 어댑터 설정
         adapter = ArticleAdapter(this)
         adapter.submitList(itemList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.articleRecyclerView.adapter = adapter
-
         binding.articleRecyclerView.addItemDecoration(DividerItemDecoration(requireActivity(), LinearLayoutManager.VERTICAL))
 
+        // 연락처 드래그 동작 정의
         val itemTouchHelperCallBack = ItemTouchHelperCallBack(this)
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallBack)
         itemTouchHelper.attachToRecyclerView(binding.articleRecyclerView)
 
+        // 연락처 추가 버튼 눌렀을 때
         binding.addFloatingButton.setOnClickListener {
-            // 다이얼로그를 여기로 옮김
-            // 데이터를 입력하면 어댑터로 추가되는 것 구현 해야 되는 상황입니다
-//            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.addcontact, null)
-            val binding = AddcontactBinding.inflate(LayoutInflater.from(requireContext()))
+
+            // 연락처 추가 다이얼로그 생성
             val builder = AlertDialog.Builder(requireContext())
+            val binding = AddContactDialogBinding.inflate(LayoutInflater.from(requireContext()))
             builder.setView(binding.root)
             val dialog = builder.create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
+            dialog.window?.setLayout(
+                (requireContext().resources.displayMetrics.widthPixels * 0.9).toInt(),
+                LayoutParams.WRAP_CONTENT
+           )
 
-            val finishButton = binding.finishButton
-//            val finishButton = dialogView.findViewById<Button>(R.id.finishButton)
-            finishButton.setOnClickListener {
+            // 취소 누르면 다이얼로그 종료
+            binding.finishButton.setOnClickListener {
                 dialog.dismiss()
             }
 
+            // 등록 버튼 누르면 연락처 추가
             val addButton = binding.submitButton
             addButton.setOnClickListener {
                 val name = binding.addNameEditText.text.toString()
@@ -78,6 +88,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                 val email = binding.addMailEditText.text.toString()
                 val image = R.drawable.karina
 
+                // 유효성 검사 구문
                 if (name.isNotEmpty() && phoneNumber.isNotEmpty() && email.isNotEmpty()) {
                     val newItem = ArticleModel(name, phoneNumber, email, image)
                     val updatedList = mutableListOf(newItem)
@@ -85,7 +96,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                     adapter.submitList(updatedList)
                     dialog.dismiss()
                 } else {
-                    Toast.makeText(requireContext(), "모든 내용을 입력해야 추가가 가능합니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "모든 내용을 입력해야 연락처 추가가 가능합니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -93,6 +104,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         return binding.root
     }
 
+    // 연락처 드래그 시 권한 허용 여부에 따른 동작 정의
     override fun onItemSwipe(position: Int) {
         if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel: ${itemList[position].phoneNumber}"))
@@ -104,22 +116,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         }
     }
 
-//    private fun showDialog() {
-////        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.addcontact, null)
-//        val binding = AddcontactBinding.inflate(LayoutInflater.from(requireContext()))
-//        val builder = AlertDialog.Builder(requireContext())
-//        builder.setView(binding.root)
-//        val dialog = builder.create()
-//        dialog.show()
-//
-//        val finishButton = binding.finishButton
-////        val finishButton = dialogView.findViewById<Button>(R.id.finishButton)
-//        finishButton.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//
-//    }
-
+    // 권한 요청
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == CALL) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -128,10 +125,5 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                 Toast.makeText(requireContext(), "권한이 허용되지 않았습니다. 권한을 허용해야 전화를 걸 수 있습니다.", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
