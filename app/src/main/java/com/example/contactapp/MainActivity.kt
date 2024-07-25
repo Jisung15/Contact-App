@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
             items.add(title)
         }
 
-        val a = 0
-
         return items
     }
 }
