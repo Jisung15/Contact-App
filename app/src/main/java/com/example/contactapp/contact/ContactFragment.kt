@@ -86,7 +86,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                 val name = binding.addNameEditText.text.toString()
                 val phoneNumber = binding.addPhoneNumberEditText.text.toString()
                 val email = binding.addMailEditText.text.toString()
-                val image = R.drawable.karina
+                val image = R.drawable.primary_profile
 
                 // 유효성 검사 구문
                 if (name.isNotEmpty() && phoneNumber.isNotEmpty() && email.isNotEmpty()) {
