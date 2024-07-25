@@ -8,14 +8,16 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contactapp.R
@@ -49,11 +51,32 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         ) as MutableList<ArticleModel>
 
         // RecyclerView 어댑터 설정
-        adapter = ArticleAdapter(this)
+        adapter = ArticleAdapter(R.layout.list_item_article)
         adapter.submitList(itemList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.articleRecyclerView.adapter = adapter
-        binding.articleRecyclerView.addItemDecoration(DividerItemDecoration(requireActivity(), LinearLayoutManager.VERTICAL))
+
+        binding.ivMenu.setOnClickListener {
+            val popupMenu = PopupMenu(requireContext(), it)
+            popupMenu.menuInflater.inflate(R.menu.dropdown_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                when (item.itemId) {
+                    R.id.action_item1 -> {
+                        adapter.updateLayout(R.layout.grid_item_article)
+                        binding.articleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
+                        true
+                    }
+                    R.id.action_item2 -> {
+                        adapter.updateLayout(R.layout.list_item_article)
+                        binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
+        }
+
 
         // 연락처 드래그 동작 정의
         val itemTouchHelperCallBack = ItemTouchHelperCallBack(this)
@@ -73,7 +96,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             dialog.window?.setLayout(
                 (requireContext().resources.displayMetrics.widthPixels * 0.9).toInt(),
                 LayoutParams.WRAP_CONTENT
-           )
+            )
 
             // 취소 누르면 다이얼로그 종료
             binding.finishButton.setOnClickListener {
@@ -96,7 +119,11 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                     adapter.submitList(updatedList)
                     dialog.dismiss()
                 } else {
-                    Toast.makeText(requireContext(), "모든 내용을 입력해야 연락처 추가가 가능합니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "모든 내용을 입력해야 연락처 추가가 가능합니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

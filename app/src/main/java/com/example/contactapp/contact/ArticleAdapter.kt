@@ -1,57 +1,80 @@
 package com.example.contactapp.contact
 
 import android.content.Intent
-import android.graphics.Outline
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.example.contactapp.ItemProfileActivity
 import com.example.contactapp.R
-import com.example.contactapp.databinding.ItemArticleBinding
+import com.example.contactapp.databinding.GridItemArticleBinding
+import com.example.contactapp.databinding.ListItemArticleBinding
 
-class ArticleAdapter(private val listener: ItemTouchHelperListener) :
+class ArticleAdapter(private var layoutId: Int) :
     ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil) {
 
-    inner class ViewHolder(private val binding: ItemArticleBinding) :
+    inner class ViewHolder(private val binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(articleModel: ArticleModel) {
-            binding.name.text = articleModel.name
-            binding.profileImage.setImageResource(articleModel.imageUrl)
-            binding.like.setImageResource(R.drawable.heart_outlined)
+            when (binding) {
+                is GridItemArticleBinding -> {
+                    binding.name.text = articleModel.name
+                    binding.profileImage.setImageResource(articleModel.imageUrl)
 
-            binding.profileImage.setOnClickListener {
-                val context = itemView.context
-                val intent = Intent(context, ItemProfileActivity::class.java).apply {
-                    putExtra("name", articleModel.name)
-                    putExtra("phoneNumber", articleModel.phoneNumber)
-                    putExtra("email", articleModel.mail)
-                    putExtra("profileImage", articleModel.imageUrl)
+                    binding.profileImage.setOnClickListener {
+                        val context = itemView.context
+                        val intent = Intent(context, ItemProfileActivity::class.java).apply {
+                            putExtra("name", articleModel.name)
+                            putExtra("phoneNumber", articleModel.phoneNumber)
+                            putExtra("email", articleModel.mail)
+                            putExtra("profileImage", articleModel.imageUrl)
+                        }
+                        context.startActivity(intent)
+                    }
                 }
-                context.startActivity(intent)
-            }
-
-            binding.like.setOnClickListener {
-                articleModel.dHeartCheck = !articleModel.dHeartCheck
-                if (articleModel.dHeartCheck) {
-                    binding.like.setImageResource(R.drawable.heart_filled)
-                } else {
+                is ListItemArticleBinding -> {
+                    binding.name.text = articleModel.name
+                    binding.profileImage.setImageResource(articleModel.imageUrl)
                     binding.like.setImageResource(R.drawable.heart_outlined)
+
+                    binding.profileImage.setOnClickListener {
+                        val context = itemView.context
+                        val intent = Intent(context, ItemProfileActivity::class.java).apply {
+                            putExtra("name", articleModel.name)
+                            putExtra("phoneNumber", articleModel.phoneNumber)
+                            putExtra("email", articleModel.mail)
+                            putExtra("profileImage", articleModel.imageUrl)
+                        }
+                        context.startActivity(intent)
+                    }
+
+                    binding.like.setOnClickListener {
+                        articleModel.dHeartCheck = !articleModel.dHeartCheck
+                        binding.like.setImageResource(
+                            if (articleModel.dHeartCheck) R.drawable.heart_filled
+                            else R.drawable.heart_outlined
+                        )
+                    }
                 }
             }
-
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return layoutId
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = when (viewType) {
+            R.layout.grid_item_article -> GridItemArticleBinding.inflate(inflater, parent, false)
+            R.layout.list_item_article -> ListItemArticleBinding.inflate(inflater, parent, false)
+            else -> throw IllegalArgumentException("Invalid layout resource ID")
+        }
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -68,5 +91,10 @@ class ArticleAdapter(private val listener: ItemTouchHelperListener) :
                 return oldItem == newItem
             }
         }
+    }
+
+    fun updateLayout(newLayoutId: Int) {
+        this.layoutId = newLayoutId
+        notifyDataSetChanged()
     }
 }
