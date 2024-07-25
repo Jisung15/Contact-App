@@ -22,15 +22,7 @@ class ArticleAdapter(private val listener: ItemTouchHelperListener) :
         fun bind(articleModel: ArticleModel) {
             binding.name.text = articleModel.name
             binding.profileImage.setImageResource(articleModel.imageUrl)
-            binding.like.setImageResource(R.drawable.heart)
-
-            // profileImage 라운딩 처리
-//            binding.profileImage.outlineProvider = object : ViewOutlineProvider() {
-//                override fun getOutline(view: View, outline: Outline) {
-//                    outline.setRoundRect(0, 0, view.width, view.height, 35f)
-//                }
-//            }
-//            binding.profileImage.clipToOutline = true
+            binding.like.setImageResource(R.drawable.heart_outlined)
 
             binding.profileImage.setOnClickListener {
                 val context = itemView.context
@@ -45,16 +37,17 @@ class ArticleAdapter(private val listener: ItemTouchHelperListener) :
 
             // like 이미지 변경
             if (articleModel.dHeartCheck) {
-                binding.like.setImageResource(R.drawable.fulllike_icon)
+                binding.like.setImageResource(R.drawable.heart_filled)
             } else {
-                binding.like.setImageResource(R.drawable.heart)
+                binding.like.setImageResource(R.drawable.heart_outlined)
             }
+
             binding.like.setOnClickListener {
                 articleModel.dHeartCheck = !articleModel.dHeartCheck
                 if (articleModel.dHeartCheck) {
-                    binding.like.setImageResource(R.drawable.fulllike_icon)
+                    binding.like.setImageResource(R.drawable.heart_filled)
                 } else {
-                    binding.like.setImageResource(R.drawable.heart)
+                    binding.like.setImageResource(R.drawable.heart_outlined)
                 }
             }
 
