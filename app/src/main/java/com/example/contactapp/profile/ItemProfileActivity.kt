@@ -75,7 +75,6 @@ class ItemProfileActivity : AppCompatActivity() {
         when (requestCode) {
             REQUEST_PHONE_CALL -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    val phoneNumber = intent.getStringExtra("$phoneNumber")
                     startCall(phoneNumber)
                 } else {
                     Toast.makeText(this, "권한이 허용되지 않았습니다. 권한을 허용해야 전화를 걸 수 있습니다.", Toast.LENGTH_SHORT).show()
@@ -84,7 +83,6 @@ class ItemProfileActivity : AppCompatActivity() {
 
             REQUEST_MESSAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    val phoneNumber = intent.getStringExtra("$phoneNumber")
                     startMessage(phoneNumber)
                 } else {
                     Toast.makeText(this, "권한이 허용되지 않았습니다. 권한을 허용해야 메세지를 보낼 수 있습니다.", Toast.LENGTH_SHORT).show()

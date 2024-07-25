@@ -44,7 +44,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <FrameLayout
-                android:id="@+id/itemLinearLayouy"
+                android:id="@+id/itemLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="440dp"
                 app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
@@ -116,7 +116,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/itemLinearLayouy">
+                app:layout_constraintTop_toBottomOf="@id/itemLinearLayout">
 
                 <TextView
                     android:id="@+id/profileNameTitle"
@@ -141,7 +141,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/profilPhonNumberLayout"
+                android:id="@+id/profilePhoneNumberLayout"
                 android:layout_width="358dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
@@ -174,7 +174,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/profilMailLayout"
+                android:id="@+id/profileMailLayout"
                 android:layout_width="358dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
@@ -182,7 +182,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profilPhonNumberLayout">
+                app:layout_constraintTop_toBottomOf="@id/profilePhoneNumberLayout">
 
                 <TextView
                     android:id="@+id/profileMaulTitle"
@@ -207,7 +207,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/profilEventLayout"
+                android:id="@+id/profileEventLayout"
                 android:layout_width="358dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
@@ -215,7 +215,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profilMailLayout">
+                app:layout_constraintTop_toBottomOf="@id/profileMailLayout">
 
                 <TextView
                     android:id="@+id/profileEventTitle"
