@@ -157,7 +157,11 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
     fun updateItems(updatedItem: ArticleModel) {
         val updatedList = adapter.currentList.toMutableList().apply {
             remove(updatedItem)
-            add(0, updatedItem)
+            if (updatedItem.dHeartCheck) {
+                add(0, updatedItem)
+            } else {
+                add(updatedItem)
+            }
         }
         adapter.submitList(updatedList)
     }
