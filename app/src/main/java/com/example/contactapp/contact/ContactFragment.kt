@@ -1,12 +1,22 @@
 package com.example.contactapp.contact
 
+import android.Manifest
 import android.app.ActionBar.LayoutParams
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.AudioAttributes
+import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -15,11 +25,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.contactapp.MainActivity
 import com.example.contactapp.R
 import com.example.contactapp.databinding.AddContactDialogBinding
 import com.example.contactapp.databinding.FragmentContactBinding
@@ -31,6 +44,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
     private lateinit var adapter: ArticleAdapter
     private var itemList = mutableListOf<ArticleModel>()
     private val CALL = 1
+    private val REQUEST_CODE_NOTIFICATION = 2
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +65,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         ) as MutableList<ArticleModel>
 
         // RecyclerView 어댑터 설정
-        adapter = ArticleAdapter(R.layout.list_item_article, this::updateItems) // **수정: 아이템 업데이트 콜백 전달
+        adapter = ArticleAdapter(R.layout.list_item_article, this::updateItems)
         adapter.submitList(itemList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.articleRecyclerView.adapter = adapter
@@ -109,6 +123,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                 val phoneNumber = binding.addPhoneNumberEditText.text.toString()
                 val email = binding.addMailEditText.text.toString()
                 val image = R.drawable.primary_profile
+                val event = binding.addEventEditText
 
                 // 유효성 검사 구문
                 if (name.isNotEmpty() && phoneNumber.isNotEmpty() && email.isNotEmpty()) {
@@ -117,6 +132,37 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                     updatedList.addAll(adapter.currentList)
                     adapter.submitList(updatedList)
                     dialog.dismiss()
+
+                    // 알림을 울리게 하는 시간을 이벤트 EditText에 입력한 숫자에 따라 결정
+                    val delayMillis: Long
+                     when (event.text.toString().toInt()) {
+                        5 -> {
+                            delayMillis = 5000L
+                            Toast.makeText(requireContext(), "5초 뒤에 알림이 울립니다.", Toast.LENGTH_SHORT).show()
+                        }
+                        10 -> {
+                            delayMillis = 10000L
+                            Toast.makeText(requireContext(), "10초 뒤에 알림이 울립니다.", Toast.LENGTH_SHORT).show()
+                        }
+                        30 -> {
+                            delayMillis = 30000L
+                            Toast.makeText(requireContext(), "30초 뒤에 알림이 울립니다.", Toast.LENGTH_SHORT).show()
+                        }
+                        0 -> {
+                            delayMillis = 0L
+                            Toast.makeText(requireContext(), "알림이 바로 울립니다.", Toast.LENGTH_SHORT).show()
+                        }
+                         else -> {
+                             Toast.makeText(requireContext(), "잘못된 입력입니다.", Toast.LENGTH_SHORT).show()
+                             return@setOnClickListener
+                         }
+                    }
+
+                    // 그리고 그 시간에 맞춰서 알림 설정
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        showNotification()
+                    }, delayMillis)
+
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -128,6 +174,54 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         }
 
         return binding.root
+    }
+
+    // 알림 채널 생성하고 알림 실제로 울리게 하는 부분
+    // 권한을 허용해야만 울리게 설정
+    private fun showNotification() {
+        val channelId = "Alarm_Channel"
+        val channelName = "Contact Notifications"
+
+        // 일정 버전 이상에서 권한이 허용되지 않으면 요청 창을 띄워 권한 허용을 할 것인지 선택하도록 함
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
+            }
+        }
+
+        // 알림 채널 설정
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            val channel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Channel for contact notifications"
+            }
+
+            notificationManager.createNotificationChannel(channel)
+
+            // Pending Intent 설정 파트
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(
+                requireContext(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val builder = NotificationCompat.Builder(requireContext(), channelId)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("연락처 알림")
+                .setContentText("연락을 할 시간입니다!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+
+            notificationManager.notify(1, builder.build())
+        }
     }
 
     // 연락처 드래그 시 권한 허용 여부에 따른 동작 정의
@@ -142,13 +236,19 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         }
     }
 
-    // 권한 요청
+    // 권한 요청 결과 처리
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == CALL) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(requireContext(), "권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "권한이 허용되지 않았습니다. 권한을 허용해야 전화를 걸 수 있습니다.", Toast.LENGTH_SHORT).show()
+            }
+        } else if (requestCode == REQUEST_CODE_NOTIFICATION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showNotification()
+            } else {
+                Toast.makeText(requireContext(), "알림 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }
