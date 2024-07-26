@@ -183,7 +183,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         val channelName = "Contact Notifications"
 
         // 일정 버전 이상에서 권한이 허용되지 않으면 요청 창을 띄워 권한 허용을 할 것인지 선택하도록 함
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
             }
