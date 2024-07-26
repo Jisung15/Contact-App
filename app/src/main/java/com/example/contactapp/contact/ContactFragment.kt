@@ -183,7 +183,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         val channelName = "Contact Notifications"
 
         // 일정 버전 이상에서 권한이 허용되지 않으면 요청 창을 띄워 권한 허용을 할 것인지 선택하도록 함
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
             }
@@ -246,9 +246,9 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             }
         } else if (requestCode == REQUEST_CODE_NOTIFICATION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showNotification()
+                Toast.makeText(requireContext(), "알림 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "알림 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "알림 권한이 허용되지 않았습니다. 권한을 허용해야 알림을 받을 수 있습니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }
