@@ -12,8 +12,10 @@ import com.example.contactapp.R
 import com.example.contactapp.databinding.GridItemArticleBinding
 import com.example.contactapp.databinding.ListItemArticleBinding
 
-class ArticleAdapter(private var layoutId: Int) :
-    ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil) {
+class ArticleAdapter(
+    private var layoutId: Int,
+    private val callBack: (ArticleModel) -> Unit
+) : ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -38,7 +40,10 @@ class ArticleAdapter(private var layoutId: Int) :
                 is ListItemArticleBinding -> {
                     binding.name.text = articleModel.name
                     binding.profileImage.setImageResource(articleModel.imageUrl)
-                    binding.like.setImageResource(R.drawable.heart_outlined)
+                    binding.like.setImageResource(
+                        if (articleModel.dHeartCheck) R.drawable.heart_filled
+                        else R.drawable.heart_outlined
+                    )
 
                     binding.profileImage.setOnClickListener {
                         val context = itemView.context
@@ -57,6 +62,7 @@ class ArticleAdapter(private var layoutId: Int) :
                             if (articleModel.dHeartCheck) R.drawable.heart_filled
                             else R.drawable.heart_outlined
                         )
+                        callBack(articleModel)
                     }
                 }
             }

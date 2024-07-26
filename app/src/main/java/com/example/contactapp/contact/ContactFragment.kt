@@ -51,7 +51,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         ) as MutableList<ArticleModel>
 
         // RecyclerView 어댑터 설정
-        adapter = ArticleAdapter(R.layout.list_item_article)
+        adapter = ArticleAdapter(R.layout.list_item_article, this::updateItems) // **수정: 아이템 업데이트 콜백 전달
         adapter.submitList(itemList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.articleRecyclerView.adapter = adapter
@@ -76,7 +76,6 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             }
             popupMenu.show()
         }
-
 
         // 연락처 드래그 동작 정의
         val itemTouchHelperCallBack = ItemTouchHelperCallBack(this)
@@ -152,5 +151,14 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                 Toast.makeText(requireContext(), "권한이 허용되지 않았습니다. 권한을 허용해야 전화를 걸 수 있습니다.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    //정렬 메서드
+    fun updateItems(updatedItem: ArticleModel) {
+        val updatedList = adapter.currentList.toMutableList().apply {
+            remove(updatedItem)
+            add(0, updatedItem)
+        }
+        adapter.submitList(updatedList)
     }
 }
