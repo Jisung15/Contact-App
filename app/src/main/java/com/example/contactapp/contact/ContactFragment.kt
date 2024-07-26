@@ -1,6 +1,8 @@
 package com.example.contactapp.contact
 
 import android.app.ActionBar.LayoutParams
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -32,6 +34,19 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
     private var itemList = mutableListOf<ArticleModel>()
     private val CALL = 1
 
+    private val contactUpdateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val position = intent?.getIntExtra("position", -1) ?: return
+            val name = intent.getStringExtra("name") ?: return
+            val phoneNumber = intent.getStringExtra("phoneNumber") ?: return
+            val email = intent.getStringExtra("email") ?: return
+            val profileEvent = intent.getStringExtra("profileEvent") ?: return
+
+            val updatedContact = ArticleModel(name, phoneNumber, email, R.drawable.primary_profile, profileEvent,)
+            itemList[position] = updatedContact
+            adapter.submitList(itemList.toList())
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,13 +56,13 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
 
         // 연락처 더미 데이터
         itemList = listOf(
-            ArticleModel("지민", "010-1234-1234", "spara@gmail.com", R.drawable.jimin),
-            ArticleModel("장원영", "010-1234-1243", "sparta@gmail.com", R.drawable.wonyoung),
-            ArticleModel("성한빈", "010-1234-2134", "sparta@gmail.com", R.drawable.hanbin),
-            ArticleModel("사쿠라", "010-1234-2143", "sparta@gmail.com", R.drawable.sakura),
-            ArticleModel("수빈", "010-1234-5678", "sparta@gmail.com", R.drawable.soobin),
-            ArticleModel("카리나", "010-1234-5687", "sparta@gmail.com", R.drawable.karina),
-            ArticleModel("민지", "010-1234-6587", "sparta@gmail.com", R.drawable.minji)
+            ArticleModel("지민", "010-1234-1234", "spara@gmail.com", R.drawable.jimin,""),
+            ArticleModel("장원영", "010-1234-1243", "sparta@gmail.com", R.drawable.wonyoung,""),
+            ArticleModel("성한빈", "010-1234-2134", "sparta@gmail.com", R.drawable.hanbin,""),
+            ArticleModel("사쿠라", "010-1234-2143", "sparta@gmail.com", R.drawable.sakura,""),
+            ArticleModel("수빈", "010-1234-5678", "sparta@gmail.com", R.drawable.soobin,""),
+            ArticleModel("카리나", "010-1234-5687", "sparta@gmail.com", R.drawable.karina,""),
+            ArticleModel("민지", "010-1234-6587", "sparta@gmail.com", R.drawable.minji,"")
         ) as MutableList<ArticleModel>
 
         // RecyclerView 어댑터 설정
@@ -109,10 +124,11 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                 val phoneNumber = binding.addPhoneNumberEditText.text.toString()
                 val email = binding.addMailEditText.text.toString()
                 val image = R.drawable.primary_profile
+                val event = binding.addEventEditText.text.toString()
 
                 // 유효성 검사 구문
                 if (name.isNotEmpty() && phoneNumber.isNotEmpty() && email.isNotEmpty()) {
-                    val newItem = ArticleModel(name, phoneNumber, email, image)
+                    val newItem = ArticleModel(name, phoneNumber, email, image, event )
                     val updatedList = mutableListOf(newItem)
                     updatedList.addAll(adapter.currentList)
                     adapter.submitList(updatedList)

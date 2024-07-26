@@ -5,5 +5,6 @@ data class ArticleModel(
     val phoneNumber: String,
     val mail: String,
     val imageUrl: Int,
+    val profileEvent: String,
     var dHeartCheck: Boolean = false
 )

@@ -9,7 +9,7 @@
     <string name="profile_name">이름</string>
     <string name="profile_phone_number">전화번호</string>
     <string name="profile_email">이메일</string>
-    <string name="profile_event">이벤트</string>
+    <string name="profile_event">메모</string>
     <string name="finish_button_text">취소</string>
     <string name="submit_button_text">등록</string>
 
@@ -22,6 +22,6 @@
     <string name="item_profile_phone_number_value">010-1234-1234</string>
     <string name="item_profile_email">이 메 일</string>
     <string name="item_profile_email_value">dajf23@gmail.com</string>
-    <string name="item_profile_event">이 벤 트</string>
+    <string name="item_profile_event">메   모</string>
     <string name="item_profile_event_value">000000</string>
 </resources>
