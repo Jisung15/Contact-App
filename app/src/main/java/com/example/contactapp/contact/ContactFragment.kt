@@ -10,19 +10,21 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.AudioAttributes
-import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -45,6 +47,8 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
     private var itemList = mutableListOf<ArticleModel>()
     private val CALL = 1
     private val REQUEST_CODE_NOTIFICATION = 2
+    private lateinit var imagepickerlauncher: ActivityResultLauncher<Intent>
+    private var selectdImageUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +56,19 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
+
+        imagepickerlauncher =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
+                    if(result.resultCode == AppCompatActivity.RESULT_OK){
+                        val data = result.data
+                        val uri = data?.data
+                        if(uri != null){
+                            selectdImageUri = uri
+                        }else{
+                            Toast.makeText(requireContext(),"사진을 가져오지 못했습니다.",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
 
         // 연락처 더미 데이터
         itemList = listOf(
@@ -114,6 +131,11 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             // 취소 누르면 다이얼로그 종료
             binding.finishButton.setOnClickListener {
                 dialog.dismiss()
+            }
+
+            binding.addProfileImage.setOnClickListener { //**
+                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI) //**
+                imagepickerlauncher.launch(intent) //**
             }
 
             // 등록 버튼 누르면 연락처 추가
