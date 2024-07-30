@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.contactapp.ItemProfileActivity
 import com.example.contactapp.R
 import com.example.contactapp.databinding.GridItemArticleBinding
 import com.example.contactapp.databinding.ListItemArticleBinding
+import com.example.contactapp.profile.ItemProfileActivity
 
 class ArticleAdapter(
     private var layoutId: Int,

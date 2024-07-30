@@ -1,4 +1,4 @@
-package com.example.contactapp
+package com.example.contactapp.profile
 
 import android.Manifest
 import android.content.Intent
@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.contactapp.R
 import com.example.contactapp.databinding.ActivityItemProfileBinding
 
 class ItemProfileActivity : AppCompatActivity() {

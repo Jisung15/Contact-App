@@ -1,4 +1,4 @@
-package com.example.contactapp.contact
+package com.example.contactapp.profile
 
 import androidx.fragment.app.Fragment
 import com.example.contactapp.R
