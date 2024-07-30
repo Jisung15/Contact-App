@@ -11,6 +11,6 @@ class ViewPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activ
     override fun createFragment(position: Int) = when (position) {
         0 -> ContactFragment()
         1 -> ProfileFragment()
-        else -> throw IllegalArgumentException("Invalid position: $position")
+        else -> ContactFragment()     // default Fragment 설정
     }
 }

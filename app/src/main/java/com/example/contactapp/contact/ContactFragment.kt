@@ -53,6 +53,16 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
     ): View {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
 
+        dummyData()
+        recyclerViewAdapter()
+        viewTypeChange()
+        itemTouchHelperCallBack()
+        addContacts()
+
+        return binding.root
+    }
+
+    private fun dummyData() {
         // 연락처 더미 데이터
         itemList = listOf(
             ArticleModel("지민", "010-1234-1234", "spara@gmail.com", R.drawable.jimin),
@@ -63,39 +73,24 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             ArticleModel("카리나", "010-1234-5687", "sparta@gmail.com", R.drawable.karina),
             ArticleModel("민지", "010-1234-6587", "sparta@gmail.com", R.drawable.minji)
         ) as MutableList<ArticleModel>
+    }
 
+    private fun recyclerViewAdapter() {
         // RecyclerView 어댑터 설정
         adapter = ArticleAdapter(R.layout.list_item_article, this::updateItems)
         adapter.submitList(itemList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.articleRecyclerView.adapter = adapter
+    }
 
-        binding.ivMenu.setOnClickListener {
-            val popupMenu = PopupMenu(requireContext(), it)
-            popupMenu.menuInflater.inflate(R.menu.dropdown_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener { item: MenuItem ->
-                when (item.itemId) {
-                    R.id.action_item1 -> {
-                        adapter.updateLayout(R.layout.grid_item_article)
-                        binding.articleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
-                        true
-                    }
-                    R.id.action_item2 -> {
-                        adapter.updateLayout(R.layout.list_item_article)
-                        binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                        true
-                    }
-                    else -> false
-                }
-            }
-            popupMenu.show()
-        }
-
+    private fun itemTouchHelperCallBack() {
         // 연락처 드래그 동작 정의
         val itemTouchHelperCallBack = ItemTouchHelperCallBack(this)
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallBack)
         itemTouchHelper.attachToRecyclerView(binding.articleRecyclerView)
+    }
 
+    private fun addContacts() {
         // 연락처 추가 버튼 눌렀을 때
         binding.addFloatingButton.setOnClickListener {
 
@@ -135,7 +130,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
 
                     // 알림을 울리게 하는 시간을 이벤트 EditText에 입력한 숫자에 따라 결정
                     val delayMillis: Long
-                     when (event.text.toString().toInt()) {
+                    when (event.text.toString().toInt()) {
                         5 -> {
                             delayMillis = 5000L
                             Toast.makeText(requireContext(), "5초 뒤에 알림이 울립니다.", Toast.LENGTH_SHORT).show()
@@ -152,10 +147,10 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                             delayMillis = 0L
                             Toast.makeText(requireContext(), "알림이 바로 울립니다.", Toast.LENGTH_SHORT).show()
                         }
-                         else -> {
-                             Toast.makeText(requireContext(), "잘못된 입력입니다.", Toast.LENGTH_SHORT).show()
-                             return@setOnClickListener
-                         }
+                        else -> {
+                            Toast.makeText(requireContext(), "잘못된 입력입니다.", Toast.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        }
                     }
 
                     // 그리고 그 시간에 맞춰서 알림 설정
@@ -172,8 +167,30 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
                 }
             }
         }
+    }
 
-        return binding.root
+    // ViewType을 list나 Grid로 자유롭게 바꿀 수 있도록 설정
+    private fun viewTypeChange() {
+        binding.ivMenu.setOnClickListener {
+            val popupMenu = PopupMenu(requireContext(), it)
+            popupMenu.menuInflater.inflate(R.menu.dropdown_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                when (item.itemId) {
+                    R.id.action_item1 -> {
+                        adapter.updateLayout(R.layout.grid_item_article)
+                        binding.articleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
+                        true
+                    }
+                    R.id.action_item2 -> {
+                        adapter.updateLayout(R.layout.list_item_article)
+                        binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
+        }
     }
 
     // 알림 채널 생성하고 알림 실제로 울리게 하는 부분
@@ -264,5 +281,11 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             }
         }
         adapter.submitList(updatedList)
+    }
+
+    // Fragment에는 이거 추가 필수..
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

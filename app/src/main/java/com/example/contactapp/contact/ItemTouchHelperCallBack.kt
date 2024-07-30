@@ -27,7 +27,9 @@ class ItemTouchHelperCallBack (listener: ItemTouchHelperListener) : ItemTouchHel
         return true
     }
 
+    /*
+    이거 지워도 동작 잘 됩니다. 어차피 길게 눌러서 위치 바꾸고 그런 거 안 하니...
     override fun isLongPressDragEnabled(): Boolean {
         return false
-    }
+    }*/
 }

@@ -29,10 +29,13 @@ class ItemProfileActivity : AppCompatActivity() {
         binding = ActivityItemProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.backImageButton.setOnClickListener {
-            finish()
-        }
+        setUI()
+        setProfile()
+        changeData()
+    }
 
+    // 프로필 UI 설정
+    private fun setUI() {
         phoneNumber = intent.getStringExtra("phoneNumber")
         val name = intent.getStringExtra("name")
         val email = intent.getStringExtra("email")
@@ -42,6 +45,16 @@ class ItemProfileActivity : AppCompatActivity() {
         binding.phoneNumberTextView.text = Editable.Factory.getInstance().newEditable(phoneNumber)
         binding.emailTextView.text = Editable.Factory.getInstance().newEditable(email)
         binding.profileImageView.setImageResource(profileImage)
+
+        // 이후 프로필의 TextView를 수정하는 관련 함수에 Boolean 값을 false로 전달함
+        setEditTextEnabled(false)
+    }
+
+    // 프로필의 전화 버튼이랑, 메세지 버튼 관련 설정 함수, 뒤로 가기 버튼도 설정 (전체적인 프로필 페이지 기능 관련)
+    private fun setProfile() {
+        binding.backImageButton.setOnClickListener {
+            finish()
+        }
 
         binding.callPhone.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
@@ -62,11 +75,13 @@ class ItemProfileActivity : AppCompatActivity() {
                 startMessage(phoneNumber)
             }
         }
+    }
 
+    // 팝업 메뉴를 띄우는 함수를 실행하는 부분...?
+    private fun changeData() {
         binding.profileMenu.setOnClickListener { view ->
             showPopupMenu(view)
         }
-        setEditTextEnabled(false)
     }
 
     private fun showPopupMenu(view: View) {

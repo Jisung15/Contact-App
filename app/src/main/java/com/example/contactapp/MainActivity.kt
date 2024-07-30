@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        // ViewPager2르 만들고 Tab Layout과 같이 연관시키는(?) 함수를 따로 만들어서 호출하는 부분
+        setViewPager2()
+    }
+
+    // 여기서 ViewPager2를 만들고 어댑터 연결, TabLayout을 만들고 그 Tab에 텍스트 설정
+    private fun setViewPager2() {
         val tabItems = loadMenuItems()
 
         with(binding) {

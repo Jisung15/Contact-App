@@ -17,10 +17,12 @@ class ArticleAdapter(
     private val callBack: (ArticleModel) -> Unit
 ) : ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil) {
 
-    inner class ViewHolder(private val binding: ViewBinding) :
+    // inner class 설정을 이렇게 바꿔주어야 한다고 한다.
+    class ViewHolder(private val binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(articleModel: ArticleModel) {
+        // callBack도 선언해 주어야 한다.?
+        fun bind(articleModel: ArticleModel, callBack: (ArticleModel) -> Unit) {
             when (binding) {
                 is GridItemArticleBinding -> {
                     binding.name.text = articleModel.name
@@ -37,6 +39,7 @@ class ArticleAdapter(
                         context.startActivity(intent)
                     }
                 }
+
                 is ListItemArticleBinding -> {
                     binding.name.text = articleModel.name
                     binding.profileImage.setImageResource(articleModel.imageUrl)
@@ -56,13 +59,14 @@ class ArticleAdapter(
                         context.startActivity(intent)
                     }
 
+                    // .copy로 복사본(?)을 만드는 거라고 한다. 데이터 클래스의 복사본...?
                     binding.like.setOnClickListener {
-                        articleModel.dHeartCheck = !articleModel.dHeartCheck
+                        val articleModelCopy = articleModel.copy(dHeartCheck = false)
                         binding.like.setImageResource(
-                            if (articleModel.dHeartCheck) R.drawable.heart_filled
+                            if (articleModelCopy.dHeartCheck) R.drawable.heart_filled
                             else R.drawable.heart_outlined
                         )
-                        callBack(articleModel)
+                        callBack(articleModelCopy)
                     }
                 }
             }
@@ -84,7 +88,7 @@ class ArticleAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), callBack)
     }
 
     companion object {
