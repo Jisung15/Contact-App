@@ -34,7 +34,7 @@
         </activity>
 
         <activity android:name=".contact.AddContactActivity" />
-        <activity android:name=".ItemProfileActivity" />
+        <activity android:name=".profile.ItemProfileActivity" />
 
     </application>
 
