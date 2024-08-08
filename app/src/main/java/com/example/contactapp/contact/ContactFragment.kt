@@ -65,7 +65,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         ) as MutableList<ArticleModel>
 
         // RecyclerView 어댑터 설정
-        adapter = ArticleAdapter(R.layout.list_item_article, this::updateItems)
+        adapter = ArticleAdapter()
         adapter.submitList(itemList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.articleRecyclerView.adapter = adapter
@@ -76,13 +76,13 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
             popupMenu.setOnMenuItemClickListener { item: MenuItem ->
                 when (item.itemId) {
                     R.id.action_item1 -> {
-                        adapter.updateLayout(R.layout.grid_item_article)
-                        binding.articleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
+                        adapter.setLayoutId(R.layout.list_item_article)
+                        binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                         true
                     }
                     R.id.action_item2 -> {
-                        adapter.updateLayout(R.layout.list_item_article)
-                        binding.articleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                        adapter.setLayoutId(R.layout.grid_item_article)
+                        binding.articleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
                         true
                     }
                     else -> false
@@ -176,8 +176,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact), ItemTouchHelperList
         return binding.root
     }
 
-    // 알림 채널 생성하고 알림 실제로 울리게 하는 부분
-    // 권한을 허용해야만 울리게 설정
+    // 알림 채널 생성 후 알림 보내기 (권환 설정 해야 알림 보내짐)
     private fun showNotification() {
         val channelId = "Alarm_Channel"
         val channelName = "Contact Notifications"
